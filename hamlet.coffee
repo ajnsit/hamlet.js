@@ -3,7 +3,7 @@
 # * LICENSE: Mozilla Public License
 
 # this one javascript function is _.template from underscore.js, MIT license
-# remove escape and evaluate, just use interpolate   
+# remove escape and evaluate, just use interpolate
 this.Hamlet = `function(str, data){
     var c  = Hamlet.templateSettings;
     str = Hamlet.toHtml(str);
@@ -25,7 +25,7 @@ this.Hamlet = `function(str, data){
 
 
 this.Hamlet.templateSettings = {
-  interpolate    : /\{\{([\s\S]+?)\}\}/g,
+  interpolate    : /\#\{([\s\S]+?)\}/g,
 }
 
 this.Hamlet.toHtml = (html) ->
@@ -35,12 +35,8 @@ this.Hamlet.toHtml = (html) ->
   needs_space = false
 
   delete_comment = (s) ->
-    i = indexOf(s, '#')
-    if !i? then s else
-      sub = s.substring(0, i)
-      # let an html encoded entity pass through
-      if indexOf(s, '&#') != i - 1 then sub else
-        sub + '#' + delete_comment(s.substring(i+1))
+    i = indexOf(s, '##')
+    if !i? then s else s.substring(0, i)
 
   push_innerHTML = (str) ->
     needs_space = true
@@ -53,8 +49,6 @@ this.Hamlet.toHtml = (html) ->
 
     if unindented.length == 0
       content.push(' ')
-
-    else if unindented[0] == '#'
 
     else
       if pos <= last_tag_indent

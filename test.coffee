@@ -3,7 +3,6 @@ t = (a, b) =>
   h = Hamlet.toHtml(b).replace(/\n/g, " ")
   if a != h
     console.log("from:\n" + b + "\n\nnot equal:\n" + a + "\n" + h)
-    process.exit(1) if process && process.exit
 
 # class shortcut and class attribute
 t '<div class="guide-entry {{zebra(episode)}}"></div>', """
@@ -64,7 +63,7 @@ t('<div class="klass" ng-controller="Controller"></div>',
 # id & class shortcuts
 t '<p class="foo"><div id="bar">baz </div></p>', """
 <p .foo>
-  <#bar>baz # this is a comment
+  <#bar>baz ## this is a comment
 """
 
 # multiple lines of text
@@ -123,7 +122,7 @@ t '<p><b>no space</b>none here either.  Two spaces after a period is bad!</p>', 
 '''
 
 interp = =>
-  r = Hamlet('{{foo}} {{bar}}',
+  r = Hamlet('#{foo} #{bar}',
     foo : "a"
     bar : "b"
   )
